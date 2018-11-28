@@ -113,6 +113,9 @@ class Category(TranslatedAutoSlugifyMixin, TranslationHelperMixin,
             slug = self.known_translation_getter(
                 'slug', default=None, language_code=language)[0] or ''
 
+        if not slug:
+            slug = self.slug
+
         kwargs = {}
         try:
             permalink_type = self.appconfig.permalink_type
@@ -198,6 +201,9 @@ class Question(TranslatedAutoSlugifyMixin, TranslationHelperMixin,
         question_slug = self.known_translation_getter(
             'slug', default='', language_code=language)[0]
 
+        if not question_slug:
+            question_slug = self.slug
+            
         try:
             namespace = self.category.appconfig.namespace
         except AttributeError:
