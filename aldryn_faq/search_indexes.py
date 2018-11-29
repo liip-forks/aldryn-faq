@@ -46,6 +46,14 @@ class QuestionIndex(get_index_base()):
 
             return ' '.join(text_bits)
 
+    def get_index_kwargs(self, language):
+        return {'translations__language_code': language}
+
+    def get_language(self, obj):
+        if hasattr(obj, 'language_code'):
+            return obj.language_code
+        return None
+
 
 class CategoryIndex(get_index_base()):
 
@@ -59,8 +67,8 @@ class CategoryIndex(get_index_base()):
             return obj.safe_translation_getter('name')
 
     def get_index_queryset(self, language):
-        categories = self.get_model().objects.language(language)
-        return categories.active_translations(language)
+        categories = self.get_model().objects.language(language).active_translations(language)
+        return categories
 
     def get_model(self):
         return Category
@@ -68,3 +76,11 @@ class CategoryIndex(get_index_base()):
     def get_search_data(self, obj, language, request):
         with switch_language(obj):
             return strip_tags(obj.safe_translation_getter('name'))
+
+    def get_index_kwargs(self, language):
+        return {'translations__language_code': language}
+
+    def get_language(self, obj):
+        if hasattr(obj, 'language_code'):
+            return obj.language_code
+        return None
