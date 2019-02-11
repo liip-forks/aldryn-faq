@@ -4,10 +4,10 @@ from aldryn_faq import __version__
 
 REQUIREMENTS = [
     'aldryn-apphooks-config>=0.4.0',
-    'aldryn-boilerplates>=0.7.4,<0.8',
+    'aldryn-boilerplates>=0.7.4',
     'aldryn-search',
     'aldryn-translation-tools>=0.2.1',
-    'django>=1.8,<2.0',
+    'django>=1.8', # TODO: Check Django 2.0+
     'django-admin-sortable2>=0.5.2',
     'django-cms>=3.4',
     'djangocms-text-ckeditor',
@@ -34,6 +34,8 @@ CLASSIFIERS = [
     'Programming Language :: Python :: 3.3',
     'Programming Language :: Python :: 3.4',
     'Programming Language :: Python :: 3.5',
+    'Programming Language :: Python :: 3.6',
+    'Programming Language :: Python :: 3.7',
     'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
     'Topic :: Software Development',
     'Topic :: Software Development :: Libraries :: Application Frameworks',
