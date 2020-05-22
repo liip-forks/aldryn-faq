@@ -1,12 +1,9 @@
-# -*- coding: utf-8 -*-
-
-from __future__ import unicode_literals
 from functools import partial
 
 import six
 
 from django.contrib.contenttypes.models import ContentType
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import override, ugettext_lazy as _, ungettext
@@ -89,7 +86,7 @@ class Category(TranslatedAutoSlugifyMixin, TranslationHelperMixin,
             help_text=_('Optional. Description of this category.'))
     )
     appconfig = models.ForeignKey(
-        FaqConfig, verbose_name=_('appconfig'), blank=True, null=True
+        FaqConfig, verbose_name=_('appconfig'), blank=True, null=True, on_delete=models.CASCADE,
     )
     objects = CategoryManager()
 
@@ -157,6 +154,7 @@ class Question(TranslatedAutoSlugifyMixin, TranslationHelperMixin,
         verbose_name=_('Category'),
         to=Category,
         related_name='questions',
+        on_delete = models.CASCADE,
     )
 
     answer = PlaceholderField(
@@ -203,7 +201,7 @@ class Question(TranslatedAutoSlugifyMixin, TranslationHelperMixin,
 
         if not question_slug:
             question_slug = self.slug
-            
+
         try:
             namespace = self.category.appconfig.namespace
         except AttributeError:
@@ -241,7 +239,7 @@ class QuestionsPlugin(CMSPlugin):
         default=5,
         help_text=_('The number of questions to be displayed.')
     )
-    cmsplugin_ptr = CMSPluginField()
+    cmsplugin_ptr = CMSPluginField(on_delete=models.CASCADE)
 
     def get_queryset(self):
         qs = filter_question_qs(
@@ -259,7 +257,7 @@ class QuestionsPlugin(CMSPlugin):
 @python_2_unicode_compatible
 class QuestionListPlugin(CMSPlugin):
     questions = SortedManyToManyField(verbose_name=_('questions'), to=Question)
-    cmsplugin_ptr = CMSPluginField()
+    cmsplugin_ptr = CMSPluginField(on_delete=models.CASCADE)
 
     def copy_relations(self, oldinstance):
         self.questions = oldinstance.questions.all()
@@ -278,7 +276,7 @@ class QuestionListPlugin(CMSPlugin):
 
 
 class CategoryListPlugin(CMSPlugin):
-    cmsplugin_ptr = CMSPluginField()
+    cmsplugin_ptr = CMSPluginField(on_delete=models.CASCADE)
 
     def copy_relations(self, oldinstance):
         for category in oldinstance.selected_categories.all():
@@ -314,11 +312,11 @@ class CategoryListPlugin(CMSPlugin):
 
 @python_2_unicode_compatible
 class SelectedCategory(models.Model):
-    category = models.ForeignKey(to=Category, verbose_name=_('category'))
+    category = models.ForeignKey(to=Category, verbose_name=_('category'), on_delete=models.CASCADE)
     position = models.PositiveIntegerField(
         verbose_name=_('position'), blank=True, default=0, null=True)
     cms_plugin = models.ForeignKey(
-        to=CategoryListPlugin, related_name='selected_categories')
+        to=CategoryListPlugin, related_name='selected_categories', on_delete=models.CASCADE)
 
     class Meta:
         ordering = ['position', ]

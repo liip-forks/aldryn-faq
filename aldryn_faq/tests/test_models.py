@@ -1,9 +1,9 @@
-# -*- coding: utf-8 -*-
 
-from __future__ import unicode_literals
+
+
 
 from django.contrib.contenttypes.models import ContentType
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.utils.encoding import force_text
 from django.utils.translation import override
 from cms.utils.i18n import force_language

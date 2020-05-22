@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+
 #
 # Aldryn FAQ documentation build configuration file, created by
 # sphinx-quickstart on Fri Jun 26 09:27:12 2015.

@@ -1,6 +1,6 @@
-# -*- coding: utf-8 -*-
 
-from __future__ import unicode_literals
+
+
 
 from aldryn_faq.cms_menus import FaqCategoryMenu
 from menus.menu_pool import menu_pool

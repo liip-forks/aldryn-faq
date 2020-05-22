@@ -1,5 +1,5 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
+
+
 try:
     from imp import reload
 except ImportError:
@@ -11,7 +11,7 @@ import sys
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.sites.models import Site
-from django.core.urlresolvers import clear_url_caches
+from django.urls import clear_url_caches
 from django.test import override_settings, RequestFactory, TransactionTestCase
 from django.utils.translation import override
 

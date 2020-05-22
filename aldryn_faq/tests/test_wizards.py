@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+
 from djangocms_helper.utils import create_user
 
 from .test_base import AldrynFaqTest

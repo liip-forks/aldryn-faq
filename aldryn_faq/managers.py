@@ -1,6 +1,6 @@
-# -*- coding: utf-8 -*-
 
-from __future__ import unicode_literals
+
+
 
 from cms.utils.i18n import get_current_language
 from parler.managers import TranslatableManager

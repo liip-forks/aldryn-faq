@@ -1,5 +1,5 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
+
+
 
 from django.test.utils import override_settings
 from cms.utils.urlutils import admin_reverse

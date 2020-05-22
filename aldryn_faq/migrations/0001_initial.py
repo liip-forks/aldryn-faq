@@ -1,5 +1,5 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
+
+
 
 from django.db import models, migrations
 import aldryn_translation_tools.models
@@ -30,7 +30,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='CategoryListPlugin',
             fields=[
-                ('cmsplugin_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='cms.CMSPlugin')),
+                ('cmsplugin_ptr', models.OneToOneField(on_delete=models.deletion.CASCADE, parent_link=True, auto_created=True, primary_key=True, serialize=False, to='cms.CMSPlugin')),
             ],
             options={
                 'abstract': False,
@@ -44,7 +44,7 @@ class Migration(migrations.Migration):
                 ('language_code', models.CharField(max_length=15, verbose_name='Language', db_index=True)),
                 ('name', models.CharField(max_length=255)),
                 ('slug', models.SlugField(max_length=255, verbose_name='Slug')),
-                ('master', models.ForeignKey(related_name='translations', editable=False, to='aldryn_faq.Category', null=True)),
+                ('master', models.ForeignKey(on_delete=models.deletion.CASCADE, related_name='translations', editable=False, to='aldryn_faq.Category', null=True)),
             ],
             options={
                 'managed': True,
@@ -74,7 +74,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('language_code', models.CharField(max_length=15, verbose_name='Language', db_index=True)),
                 ('app_title', models.CharField(max_length=234, verbose_name='application title')),
-                ('master', models.ForeignKey(related_name='translations', editable=False, to='aldryn_faq.FaqConfig', null=True)),
+                ('master', models.ForeignKey(on_delete=models.deletion.CASCADE, related_name='translations', editable=False, to='aldryn_faq.FaqConfig', null=True)),
             ],
             options={
                 'managed': True,
@@ -88,7 +88,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='LatestQuestionsPlugin',
             fields=[
-                ('cmsplugin_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='cms.CMSPlugin')),
+                ('cmsplugin_ptr', models.OneToOneField(on_delete=models.deletion.CASCADE, parent_link=True, auto_created=True, primary_key=True, serialize=False, to='cms.CMSPlugin')),
                 ('questions', models.IntegerField(default=5, help_text='The number of questions to be displayed.')),
             ],
             options={
@@ -99,7 +99,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='MostReadQuestionsPlugin',
             fields=[
-                ('cmsplugin_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='cms.CMSPlugin')),
+                ('cmsplugin_ptr', models.OneToOneField(on_delete=models.deletion.CASCADE, parent_link=True, auto_created=True, primary_key=True, serialize=False, to='cms.CMSPlugin')),
                 ('questions', models.IntegerField(default=5, help_text='The number of questions to be displayed.')),
             ],
             options={
@@ -115,7 +115,7 @@ class Migration(migrations.Migration):
                 ('number_of_visits', models.PositiveIntegerField(default=0, editable=False)),
                 ('order', models.PositiveIntegerField(default=1, db_index=True)),
                 ('answer', cms.models.fields.PlaceholderField(related_name='faq_questions', slotname='faq_question_answer', editable=False, to='cms.Placeholder', null=True)),
-                ('category', models.ForeignKey(related_name='questions', to='aldryn_faq.Category')),
+                ('category', models.ForeignKey(on_delete=models.deletion.CASCADE, related_name='questions', to='aldryn_faq.Category')),
             ],
             options={
                 'ordering': ('order',),
@@ -127,7 +127,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='QuestionListPlugin',
             fields=[
-                ('cmsplugin_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='cms.CMSPlugin')),
+                ('cmsplugin_ptr', models.OneToOneField(on_delete=models.deletion.CASCADE, parent_link=True, auto_created=True, primary_key=True, serialize=False, to='cms.CMSPlugin')),
                 ('questions', sortedm2m.fields.SortedManyToManyField(help_text=None, to='aldryn_faq.Question')),
             ],
             options={
@@ -142,7 +142,7 @@ class Migration(migrations.Migration):
                 ('language_code', models.CharField(max_length=15, verbose_name='Language', db_index=True)),
                 ('title', models.CharField(max_length=255, verbose_name='Title')),
                 ('answer_text', djangocms_text_ckeditor.fields.HTMLField(verbose_name='answer')),
-                ('master', models.ForeignKey(related_name='translations', editable=False, to='aldryn_faq.Question', null=True)),
+                ('master', models.ForeignKey(on_delete=models.deletion.CASCADE, related_name='translations', editable=False, to='aldryn_faq.Question', null=True)),
             ],
             options={
                 'managed': True,
@@ -158,8 +158,8 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('position', models.PositiveIntegerField(null=True, verbose_name='position', blank=True)),
-                ('category', models.ForeignKey(verbose_name='category', to='aldryn_faq.Category')),
-                ('cms_plugin', models.ForeignKey(related_name='selected_categories', to='aldryn_faq.CategoryListPlugin')),
+                ('category', models.ForeignKey(on_delete=models.deletion.CASCADE, verbose_name='category', to='aldryn_faq.Category')),
+                ('cms_plugin', models.ForeignKey(on_delete=models.deletion.CASCADE, related_name='selected_categories', to='aldryn_faq.CategoryListPlugin')),
             ],
             options={
                 'ordering': ['position'],
@@ -171,7 +171,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='TopQuestionsPlugin',
             fields=[
-                ('cmsplugin_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='cms.CMSPlugin')),
+                ('cmsplugin_ptr', models.OneToOneField(on_delete=models.deletion.CASCADE, parent_link=True, auto_created=True, primary_key=True, serialize=False, to='cms.CMSPlugin')),
                 ('questions', models.IntegerField(default=5, help_text='The number of questions to be displayed.')),
             ],
             options={
@@ -194,7 +194,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='category',
             name='appconfig',
-            field=models.ForeignKey(verbose_name='appconfig', blank=True, to='aldryn_faq.FaqConfig', null=True),
+            field=models.ForeignKey(on_delete=models.deletion.CASCADE, verbose_name='appconfig', blank=True, to='aldryn_faq.FaqConfig', null=True),
             preserve_default=True,
         ),
     ]

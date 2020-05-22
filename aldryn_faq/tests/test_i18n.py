@@ -1,8 +1,8 @@
-# -*- coding: utf-8 -*-
 
-from __future__ import unicode_literals
 
-from django.core.urlresolvers import reverse, NoReverseMatch
+
+
+from django.urls import reverse, NoReverseMatch
 from django.utils.translation import override
 
 from cms.utils.i18n import force_language
