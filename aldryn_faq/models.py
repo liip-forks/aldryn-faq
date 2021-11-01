@@ -1,11 +1,8 @@
 from functools import partial
 
-import six
-
 from django.contrib.contenttypes.models import ContentType
 from django.urls import reverse
 from django.db import models
-from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import override, ugettext_lazy as _, ungettext
 
 from aldryn_translation_tools.models import (
@@ -68,7 +65,6 @@ def filter_question_qs(question_qs):
     return question_qs.filter(category__appconfig__in=app_configs)
 
 
-@python_2_unicode_compatible
 class Category(TranslatedAutoSlugifyMixin, TranslationHelperMixin,
                TranslatableModel):
     slug_source_field_name = 'name'
@@ -76,7 +72,7 @@ class Category(TranslatedAutoSlugifyMixin, TranslationHelperMixin,
     translations = TranslatedFields(
         name=models.CharField(
             _('name'), max_length=255,
-            help_text=_(u"Provide the category’s name")),
+            help_text=_("Provide the category’s name")),
         slug=models.SlugField(
             verbose_name=_('Slug'), max_length=255, blank=True,
             help_text=_('Provide a "slug" for this category or leave blank for '
@@ -96,8 +92,6 @@ class Category(TranslatedAutoSlugifyMixin, TranslationHelperMixin,
 
     def __str__(self):
         pkstr = str(self.pk)
-        if six.PY2:
-            pkstr = six.u(pkstr)
         return self.safe_translation_getter('name', default=pkstr)
 
     def model_type_id(self):
@@ -135,7 +129,6 @@ class Category(TranslatedAutoSlugifyMixin, TranslationHelperMixin,
             return reverse('{0}faq-category'.format(namespace), kwargs=kwargs)
 
 
-@python_2_unicode_compatible
 class Question(TranslatedAutoSlugifyMixin, TranslationHelperMixin,
                TranslatableModel):
     slug_source_field_name = 'title'
@@ -143,7 +136,7 @@ class Question(TranslatedAutoSlugifyMixin, TranslationHelperMixin,
     translations = TranslatedFields(
         title=models.CharField(
             _('Title'), max_length=255,
-            help_text=_(u"This should be a short form of the question")),
+            help_text=_("This should be a short form of the question")),
         answer_text=HTMLField(_('Short description')),
         slug=models.SlugField(
             verbose_name=_('Slug'), max_length=255, blank=True,
@@ -179,8 +172,6 @@ class Question(TranslatedAutoSlugifyMixin, TranslationHelperMixin,
 
     def __str__(self):
         pkstr = str(self.pk)
-        if six.PY2:
-            pkstr = six.u(pkstr)
         return self.safe_translation_getter('title', default=pkstr)
 
     def model_type_id(self):
@@ -254,7 +245,6 @@ class QuestionsPlugin(CMSPlugin):
         abstract = True
 
 
-@python_2_unicode_compatible
 class QuestionListPlugin(CMSPlugin):
     questions = SortedManyToManyField(verbose_name=_('questions'), to=Question)
     cmsplugin_ptr = CMSPluginField(on_delete=models.CASCADE)
@@ -310,7 +300,6 @@ class CategoryListPlugin(CMSPlugin):
         return categories
 
 
-@python_2_unicode_compatible
 class SelectedCategory(models.Model):
     category = models.ForeignKey(to=Category, verbose_name=_('category'), on_delete=models.CASCADE)
     position = models.PositiveIntegerField(
