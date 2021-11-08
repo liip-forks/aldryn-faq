@@ -6,19 +6,37 @@ from distutils.version import LooseVersion
 
 from django.contrib import admin
 from django.templatetags.static import static
+from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
 from django.utils.html import escape
 
 import cms
 from cms.admin.placeholderadmin import PlaceholderAdminMixin, FrontendEditableAdminMixin
 
+import aldryn_translation_tools.admin
 from adminsortable2.admin import SortableAdminMixin
 from aldryn_apphooks_config.admin import BaseAppHookConfig
-from aldryn_translation_tools.admin import AllTranslationsMixin
 from parler.admin import TranslatableAdmin
 
 from .models import Category, Question, FaqConfig
 from .forms import CategoryAdminForm
+
+
+class AllTranslationsMixin(aldryn_translation_tools.admin.AllTranslationsMixin):
+    def all_translations(self, obj):
+        """
+        Work-around the fact that `allow_tags` is not supported anymore:
+        https://docs.djangoproject.com/en/3.1/releases/1.9/#id1
+
+        This should be fixed in `aldryn_translation_tools` but it is unmaintained.
+        """
+        parent_method = super().all_translations
+        result = parent_method(obj)
+        if getattr(parent_method, 'allow_tags', False):
+            result = mark_safe(result)
+        return result
+
+    all_translations.short_description = _("Translations")
 
 
 class CategoryAdmin(AllTranslationsMixin,
